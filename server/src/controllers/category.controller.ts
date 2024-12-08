@@ -10,17 +10,14 @@ export namespace CategoryController {
     response.status(200).json(await CategoryService.getAllCategories());
   }
 
-  export async function getCategoryById(
-    request: Request,
-    response: Response<Category>
-  ) {
+  export async function getCategoryById(request: Request, response: Response) {
     response
       .status(200)
       .json(await CategoryService.getCategoryById(parseInt(request.params.id)));
   }
 
   export async function createCategory(
-    request: Request,
+    request: Request<Category>,
     response: Response<Category>
   ) {
     response
