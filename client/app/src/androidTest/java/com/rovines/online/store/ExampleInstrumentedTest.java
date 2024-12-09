@@ -1,4 +1,4 @@
-package com.rovines.online.store.client;
+package com.rovines.online.store;
 
 import android.content.Context;
 
