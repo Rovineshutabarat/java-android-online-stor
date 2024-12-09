@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.rovines.online.store.client"
+    namespace = "com.rovines.online.store"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.rovines.online.store.client"
+        applicationId = "com.rovines.online.store"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -40,4 +40,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.recyclerview)
+    implementation(libs.lombok)
+    annotationProcessor(libs.lombok)
+    implementation(libs.material.v150)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.glide)
+    annotationProcessor (libs.compiler)
 }
