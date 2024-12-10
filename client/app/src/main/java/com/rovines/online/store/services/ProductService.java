@@ -17,11 +17,9 @@ import retrofit2.Response;
 public class ProductService {
     private ProductRepository productRepository;
 
-    public CompletableFuture<List<Product>> getAllProducts(final FetchCallback<Product> callback) {
-        CompletableFuture<List<Product>> future = new CompletableFuture<>();
-
+    public void getAllProducts(final FetchCallback<Product> callback) {
         Call<List<Product>> call = productRepository.getAllProducts();
-        call.enqueue(new Callback<List<Product>>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -34,7 +32,25 @@ public class ProductService {
                 callback.onError(t);
             }
         });
+    }
 
+    public CompletableFuture<Product> getProductById(Integer id) {
+        CompletableFuture<Product> future = new CompletableFuture<>();
+        Call<Product> call = productRepository.getProductById(id);
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.i("TAG", response.body().toString());
+                    future.complete(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                future.completeExceptionally(t);
+            }
+        });
         return future;
     }
 }

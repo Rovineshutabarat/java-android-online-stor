@@ -15,6 +15,9 @@ export namespace ProductService {
       where: {
         id: id,
       },
+      include: {
+        category: true,
+      },
     });
   }
 

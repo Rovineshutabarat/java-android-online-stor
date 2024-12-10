@@ -1,5 +1,6 @@
 package com.rovines.online.store.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import com.rovines.online.store.adapters.CategoryRecycleViewAdapter;
 import com.rovines.online.store.adapters.ProductRecycleViewAdapter;
 import com.rovines.online.store.helpers.Loading;
 import com.rovines.online.store.helpers.RetrofitClient;
+import com.rovines.online.store.listeners.ProductCartListener;
 import com.rovines.online.store.models.Category;
 import com.rovines.online.store.models.Product;
 import com.rovines.online.store.services.CategoryService;
@@ -89,10 +91,18 @@ public class StoreActivity extends AppCompatActivity {
 
     private void fetchPopularProducts() {
         loading.show();
-        productService.getAllProducts(new FetchCallback<Product>() {
+        productService.getAllProducts(new FetchCallback<>() {
             @Override
             public void onSuccess(List<Product> products) {
-                popularProductAdapter = new ProductRecycleViewAdapter(StoreActivity.this, products);
+                popularProductAdapter = new ProductRecycleViewAdapter(
+                        StoreActivity.this,
+                        products,
+                        id -> {
+                            Intent intent = new Intent(StoreActivity.this, ProductDetailActivity.class);
+                            intent.putExtra("id", id);
+                            startActivity(intent);
+                        }
+                );
                 popularProductRecycleView.setAdapter(popularProductAdapter);
                 loading.dismiss();
             }
@@ -106,10 +116,18 @@ public class StoreActivity extends AppCompatActivity {
 
     private void fetchAllProducts() {
         loading.show();
-        productService.getAllProducts(new FetchCallback<Product>() {
+        productService.getAllProducts(new FetchCallback<>() {
             @Override
             public void onSuccess(List<Product> products) {
-                allProductAdapter = new ProductRecycleViewAdapter(StoreActivity.this, products);
+                allProductAdapter = new ProductRecycleViewAdapter(
+                        StoreActivity.this,
+                        products,
+                        id -> {
+                            Intent intent = new Intent(StoreActivity.this, ProductDetailActivity.class);
+                            intent.putExtra("id", id);
+                            startActivity(intent);
+                        }
+                );
                 allProductGridView.setAdapter(allProductAdapter);
                 loading.dismiss();
             }

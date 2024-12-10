@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String API_URL = "https://08a5-103-179-248-238.ngrok-free.app/";
+    private static final String API_URL = "https://fb1f-103-179-248-238.ngrok-free.app/";
     private static Retrofit retrofit;
 
     public static Retrofit getInstance() {
