@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.rovines.online.store.R;
+import com.rovines.online.store.listeners.ProductCartListener;
 import com.rovines.online.store.models.Product;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import lombok.AllArgsConstructor;
 public class ProductRecycleViewAdapter extends RecyclerView.Adapter<ProductRecycleViewAdapter.PopularProductViewHolder> {
     private Context context;
     private List<Product> products;
+    private ProductCartListener productCartListener;
 
     @NonNull
     @Override
@@ -41,6 +44,10 @@ public class ProductRecycleViewAdapter extends RecyclerView.Adapter<ProductRecyc
                     .load(product.getImage_url())
                     .into(holder.product_image);
         }
+
+        holder.product_cart.setOnClickListener(v -> {
+            productCartListener.onClick(product.getId());
+        });
     }
 
     @Override
@@ -53,6 +60,7 @@ public class ProductRecycleViewAdapter extends RecyclerView.Adapter<ProductRecyc
         TextView product_price;
         TextView product_category_name;
         ImageView product_image;
+        LinearLayout product_cart;
 
         public PopularProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +68,7 @@ public class ProductRecycleViewAdapter extends RecyclerView.Adapter<ProductRecyc
             product_price = itemView.findViewById(R.id.product_price);
             product_category_name = itemView.findViewById(R.id.product_category_name);
             product_image = itemView.findViewById(R.id.product_image);
+            product_cart = itemView.findViewById(R.id.product_cart);
         }
     }
 }
