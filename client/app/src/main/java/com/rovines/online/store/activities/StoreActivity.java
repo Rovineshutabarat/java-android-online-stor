@@ -3,6 +3,7 @@ package com.rovines.online.store.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -141,6 +142,7 @@ public class StoreActivity extends AppCompatActivity {
 
     private void handleError(String context, Throwable throwable) {
         Log.e("StoreActivity", "Error fetching " + context, throwable);
+        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         loading.dismiss();
     }
 }
