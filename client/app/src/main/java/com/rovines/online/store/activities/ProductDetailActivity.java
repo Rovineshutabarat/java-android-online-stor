@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.rovines.online.store.R;
 import com.rovines.online.store.helpers.Loading;
 import com.rovines.online.store.helpers.RetrofitClient;
-import com.rovines.online.store.models.Product;
 import com.rovines.online.store.services.ProductService;
 
 public class ProductDetailActivity extends AppCompatActivity {
