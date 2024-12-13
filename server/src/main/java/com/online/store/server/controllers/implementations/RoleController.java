@@ -1,9 +1,9 @@
 package com.online.store.server.controllers.implementations;
 
 import com.online.store.server.controllers.BaseController;
+import com.online.store.server.models.Role;
 import com.online.store.server.payload.api.SuccessResponse;
-import com.online.store.server.payload.request.ProductRequest;
-import com.online.store.server.services.ProductService;
+import com.online.store.server.services.implementations.RoleServiceImpl;
 import com.online.store.server.utils.ResponseBuilder;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -12,18 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/role")
 @AllArgsConstructor
-public class ProductController implements BaseController<ProductRequest, Integer> {
-    private ProductService productService;
+public class RoleController implements BaseController<Role, Integer> {
+    private final RoleServiceImpl roleService;
 
     @Override
     @GetMapping
     public ResponseEntity<SuccessResponse> getAll() {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.OK,
-                "Success get all products.",
-                productService.getAllProducts());
+                "Success get all roles.",
+                roleService.getAll());
     }
 
     @Override
@@ -31,26 +31,26 @@ public class ProductController implements BaseController<ProductRequest, Integer
     public ResponseEntity<SuccessResponse> getById(@PathVariable Integer id) {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.OK,
-                "Success get product by id.",
-                productService.getProductById(id));
+                "Success get role by id.",
+                roleService.getById(id));
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<SuccessResponse> create(@RequestBody @Valid ProductRequest productRequest) {
+    public ResponseEntity<SuccessResponse> create(@RequestBody @Valid Role role) {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.CREATED,
-                "Success creating product.",
-                productService.createProduct(productRequest));
+                "Success creating role.",
+                roleService.create(role));
     }
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<SuccessResponse> update(@RequestBody @Valid ProductRequest productRequest, @PathVariable Integer id) {
+    public ResponseEntity<SuccessResponse> update(@RequestBody @Valid Role role, @PathVariable Integer id) {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.OK,
-                "Success updating product.",
-                productService.updateProduct(productRequest, id));
+                "Success updating role.",
+                roleService.update(role, id));
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ProductController implements BaseController<ProductRequest, Integer
     public ResponseEntity<SuccessResponse> delete(@PathVariable Integer id) {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.OK,
-                "Success deleting product.",
-                productService.deleteProduct(id));
+                "Success deleting role.",
+                roleService.delete(id));
     }
 }

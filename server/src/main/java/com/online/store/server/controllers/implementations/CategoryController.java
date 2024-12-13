@@ -5,6 +5,7 @@ import com.online.store.server.models.Category;
 import com.online.store.server.payload.api.SuccessResponse;
 import com.online.store.server.services.implementations.CategoryServiceImpl;
 import com.online.store.server.utils.ResponseBuilder;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class CategoryController implements BaseController<Category, Integer> {
 
     @Override
     @PostMapping
-    public ResponseEntity<SuccessResponse> create(@RequestBody Category category) {
+    public ResponseEntity<SuccessResponse> create(@RequestBody @Valid Category category) {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.CREATED,
                 "Success creating category.",
@@ -45,7 +46,7 @@ public class CategoryController implements BaseController<Category, Integer> {
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<SuccessResponse> update(@RequestBody Category category, @PathVariable Integer id) {
+    public ResponseEntity<SuccessResponse> update(@RequestBody @Valid Category category, @PathVariable Integer id) {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.OK,
                 "Success updating category.",
