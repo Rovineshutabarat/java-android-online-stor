@@ -34,6 +34,15 @@ public class GlobalExceptionHandler {
         return ResponseBuilder.createHttpErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request);
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(
+            AuthenticationException exception,
+            HttpServletRequest request) {
+        log.error(request.getRemoteAddr(), exception.getMessage());
+        return ResponseBuilder.createHttpErrorResponse(HttpStatus.UNAUTHORIZED, exception.getMessage(), request);
+    }
+
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DuplicateElementException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateElementException(
