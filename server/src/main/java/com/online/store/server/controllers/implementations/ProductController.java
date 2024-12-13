@@ -5,6 +5,7 @@ import com.online.store.server.payload.api.SuccessResponse;
 import com.online.store.server.payload.request.ProductRequest;
 import com.online.store.server.services.ProductService;
 import com.online.store.server.utils.ResponseBuilder;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class ProductController implements BaseController<ProductRequest, Integer
 
     @Override
     @PostMapping
-    public ResponseEntity<SuccessResponse> create(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<SuccessResponse> create(@RequestBody @Valid ProductRequest productRequest) {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.CREATED,
                 "Success creating product.",
@@ -45,7 +46,7 @@ public class ProductController implements BaseController<ProductRequest, Integer
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<SuccessResponse> update(@RequestBody ProductRequest productRequest, @PathVariable Integer id) {
+    public ResponseEntity<SuccessResponse> update(@RequestBody @Valid ProductRequest productRequest, @PathVariable Integer id) {
         return ResponseBuilder.createHttpSuccessResponse(
                 HttpStatus.OK,
                 "Success updating product.",

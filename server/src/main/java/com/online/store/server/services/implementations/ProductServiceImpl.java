@@ -1,16 +1,16 @@
 package com.online.store.server.services.implementations;
 
+import com.online.store.server.exceptions.DuplicateElementException;
+import com.online.store.server.exceptions.ResourceNotFoundException;
 import com.online.store.server.models.Product;
 import com.online.store.server.payload.request.ProductRequest;
 import com.online.store.server.repositories.ProductRepository;
 import com.online.store.server.services.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -25,12 +25,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Integer id) {
         return productRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                () -> new ResourceNotFoundException(String.format("Product with id %s not found", id))
         );
     }
 
     @Override
     public Product createProduct(ProductRequest productRequest) {
+        if (productRepository.existsByName(productRequest.getName())) {
+            throw new DuplicateElementException(String.format("Product with name %s already exists", productRequest.getName()));
+        }
         return productRepository.save(
                 Product.builder()
                         .name(productRequest.getName())
