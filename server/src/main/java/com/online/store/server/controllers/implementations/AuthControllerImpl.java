@@ -34,7 +34,7 @@ public class AuthControllerImpl implements AuthController {
     @PostMapping("/login")
     public ResponseEntity<SuccessResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         return ResponseBuilder.createHttpSuccessResponse(
-                HttpStatus.CREATED,
+                HttpStatus.OK,
                 "Success login.",
                 authService.login(loginRequest));
     }
