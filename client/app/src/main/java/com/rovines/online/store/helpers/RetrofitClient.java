@@ -2,12 +2,13 @@ package com.rovines.online.store.helpers;
 
 import com.rovines.online.store.repositories.CategoryRepository;
 import com.rovines.online.store.repositories.ProductRepository;
+import com.rovines.online.store.repositories.UserRepository;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String API_URL = "https://49e2-36-79-20-193.ngrok-free.app/";
+    private static final String API_URL = "https://0a97-103-179-248-238.ngrok-free.app/";
     private static Retrofit retrofit;
 
     public static Retrofit getInstance() {
@@ -26,5 +27,9 @@ public class RetrofitClient {
 
     public static CategoryRepository getCategoryRepository() {
         return getInstance().create(CategoryRepository.class);
+    }
+
+    public static UserRepository getUserRepository() {
+        return getInstance().create(UserRepository.class);
     }
 }
