@@ -38,7 +38,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView9"
+                android:id="@+id/username_text_view"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 app:srcCompat="@drawable/ic_app_logo" />

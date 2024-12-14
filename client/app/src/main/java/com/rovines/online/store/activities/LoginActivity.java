@@ -1,6 +1,8 @@
 package com.rovines.online.store.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -66,6 +68,12 @@ public class LoginActivity extends AppCompatActivity {
         userService.login(loginRequest, new ApiCallback<User>() {
             @Override
             public void onSuccess(SuccessResponse<User> successResponse) {
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("id", successResponse.getData().getId());
+                editor.putString("username", successResponse.getData().getUsername());
+                editor.apply();
+
                 Intent intent = new Intent(LoginActivity.this, StoreActivity.class);
                 startActivity(intent);
                 Toast.makeText(LoginActivity.this, successResponse.getMessage(), Toast.LENGTH_LONG).show();
