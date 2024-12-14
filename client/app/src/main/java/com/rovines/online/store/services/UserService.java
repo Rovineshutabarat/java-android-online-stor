@@ -1,16 +1,13 @@
 package com.rovines.online.store.services;
 
-import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
-
+import com.google.gson.Gson;
+import com.rovines.online.store.callbacks.ApiCallback;
 import com.rovines.online.store.models.User;
+import com.rovines.online.store.payload.api.ErrorResponse;
+import com.rovines.online.store.payload.api.SuccessResponse;
 import com.rovines.online.store.payload.request.LoginRequest;
 import com.rovines.online.store.payload.request.RegisterRequest;
 import com.rovines.online.store.repositories.UserRepository;
-
-import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,63 +15,57 @@ import retrofit2.Response;
 
 public class UserService {
     private final UserRepository userRepository;
-    private final Context context;
 
-    public UserService(UserRepository userRepository, Context context) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.context = context;
     }
 
-    public CompletableFuture<ApiResponse<User>> register(RegisterRequest registerRequest) {
-        CompletableFuture<ApiResponse<User>> future = new CompletableFuture<>();
-        Call<ApiResponse<User>> call = userRepository.register(registerRequest);
-
-        call.enqueue(new Callback<ApiResponse<User>>() {
+    public void register(RegisterRequest registerRequest, ApiCallback<User> apiCallback) {
+        Call<SuccessResponse<User>> call = userRepository.register(registerRequest);
+        call.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<ApiResponse<User>> call, Response<ApiResponse<User>> response) {
+            public void onResponse(Call<SuccessResponse<User>> call, Response<SuccessResponse<User>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getCode() == 201 || response.body().getCode() == 200) {
-                            future.complete(response.body());
-                        }
-                    }
+                    apiCallback.onSuccess(response.body());
                 } else {
-                    future.completeExceptionally(new Exception("Gagal Registrasi"));
+                    Gson gson = new Gson();
+                    ErrorResponse errorResponse = gson.fromJson(
+                            response.errorBody().charStream(),
+                            ErrorResponse.class
+                    );
+                    apiCallback.onError(errorResponse);
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<User>> call, Throwable t) {
-                future.completeExceptionally(t);
+            public void onFailure(Call<SuccessResponse<User>> call, Throwable t) {
+
             }
         });
-
-        return future;
     }
 
 
-    public CompletableFuture<ApiResponse<User>> login(LoginRequest loginRequest) {
-        CompletableFuture<ApiResponse<User>> future = new CompletableFuture<>();
-        Call<ApiResponse<User>> call = userRepository.login(loginRequest);
-        call.enqueue(new Callback<ApiResponse<User>>() {
+    public void login(LoginRequest loginRequest, ApiCallback<User> apiCallback) {
+        Call<SuccessResponse<User>> call = userRepository.login(loginRequest);
+        call.enqueue(new Callback<SuccessResponse<User>>() {
             @Override
-            public void onResponse(Call<ApiResponse<User>> call, Response<ApiResponse<User>> response) {
+            public void onResponse(Call<SuccessResponse<User>> call, Response<SuccessResponse<User>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getCode() == 201 || response.body().getCode() == 200) {
-                            future.complete(response.body());
-                        }
-                    }
+                    apiCallback.onSuccess(response.body());
                 } else {
-                    future.completeExceptionally(new Exception("Gagal Login"));
+                    Gson gson = new Gson();
+                    ErrorResponse errorResponse = gson.fromJson(
+                            response.errorBody().charStream(),
+                            ErrorResponse.class
+                    );
+                    apiCallback.onError(errorResponse);
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<User>> call, Throwable t) {
-                future.completeExceptionally(t);
+            public void onFailure(Call<SuccessResponse<User>> call, Throwable t) {
+
             }
         });
-        return future;
     }
 }

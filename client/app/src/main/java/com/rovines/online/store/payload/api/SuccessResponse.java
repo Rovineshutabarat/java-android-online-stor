@@ -1,4 +1,4 @@
-package com.rovines.online.store.services;
+package com.rovines.online.store.payload.api;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiResponse <T> {
+public class SuccessResponse<T> {
     private String status;
     private Integer code;
     private String message;

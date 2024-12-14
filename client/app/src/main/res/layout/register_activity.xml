@@ -112,7 +112,7 @@
         app:boxCornerRadiusBottomStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusTopStart="12dp"
-        app:boxStrokeColor="@color/background"
+        app:boxStrokeColor="@color/primary"
         app:hintTextColor="#52D541"
         app:passwordToggleEnabled="true">
 
