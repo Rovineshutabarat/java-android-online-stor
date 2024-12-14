@@ -1,8 +1,11 @@
 package com.rovines.online.store.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rovines.online.store.R;
+import com.rovines.online.store.adapters.BottomNavigationAdapter;
 import com.rovines.online.store.adapters.CategoryRecycleViewAdapter;
 import com.rovines.online.store.adapters.ProductRecycleViewAdapter;
 import com.rovines.online.store.helpers.Loading;
@@ -30,11 +34,13 @@ public class StoreActivity extends AppCompatActivity {
     private RecyclerView categoryRecycleView;
     private RecyclerView popularProductRecycleView;
     private RecyclerView allProductGridView;
+    private RecyclerView bottomNavigationRecycleView;
     private ProductService productService;
     private CategoryService categoryService;
     private CategoryRecycleViewAdapter categoryAdapter;
     private ProductRecycleViewAdapter popularProductAdapter;
     private ProductRecycleViewAdapter allProductAdapter;
+    private TextView username_text_view;
     private Loading loading;
 
     @Override
@@ -43,13 +49,17 @@ public class StoreActivity extends AppCompatActivity {
         setContentView(R.layout.store_activity);
         initializeViews();
         initializeServices();
+        setUsernameTextView();
+        setBottomNavigationRecycleViewAdapter();
         fetchData();
     }
 
     private void initializeViews() {
-        categoryRecycleView = findViewById(R.id.categoryRecycleView);
-        popularProductRecycleView = findViewById(R.id.popularProductRecycleView);
-        allProductGridView = findViewById(R.id.allProductGridView);
+        this.categoryRecycleView = findViewById(R.id.categoryRecycleView);
+        this.popularProductRecycleView = findViewById(R.id.popularProductRecycleView);
+        this.allProductGridView = findViewById(R.id.allProductGridView);
+        this.bottomNavigationRecycleView = findViewById(R.id.bottomNavigationRecycleView);
+        this.username_text_view = findViewById(R.id.username_text_view);
 
         categoryRecycleView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -60,12 +70,27 @@ public class StoreActivity extends AppCompatActivity {
         );
 
         allProductGridView.setLayoutManager(new GridLayoutManager(this, 2));
+
+
     }
 
     private void initializeServices() {
         productService = new ProductService(RetrofitClient.getProductRepository());
         categoryService = new CategoryService(RetrofitClient.getCategoryRepository());
         loading = new Loading(this);
+    }
+
+    public void setUsernameTextView() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", null);
+        this.username_text_view.setText(username);
+    }
+
+    private void setBottomNavigationRecycleViewAdapter() {
+        bottomNavigationRecycleView.setLayoutManager(new GridLayoutManager(this, 4));
+
+        BottomNavigationAdapter bottomNavigationAdapter = new BottomNavigationAdapter(this);
+        bottomNavigationRecycleView.setAdapter(bottomNavigationAdapter);
     }
 
     private void fetchData() {
