@@ -1,6 +1,10 @@
 package com.rovines.online.store.services;
 
+import com.google.gson.Gson;
+import com.rovines.online.store.callbacks.ApiCallback;
 import com.rovines.online.store.models.Product;
+import com.rovines.online.store.payload.api.ErrorResponse;
+import com.rovines.online.store.payload.api.SuccessResponse;
 import com.rovines.online.store.repositories.ProductRepository;
 
 import java.util.List;
@@ -15,31 +19,36 @@ import retrofit2.Response;
 public class ProductService {
     private ProductRepository productRepository;
 
-    public void getAllProducts(final FetchCallback<Product> callback) {
-        Call<ApiResponse<List<Product>>> call = productRepository.getAllProducts();
-        call.enqueue(new Callback<>() {
+    public void getAllProducts(final ApiCallback<Product> callback) {
+        Call<SuccessResponse<List<Product>>> call = productRepository.getAllProducts();
+        call.enqueue(new Callback<SuccessResponse<List<Product>>>() {
             @Override
-            public void onResponse(Call<ApiResponse<List<Product>>> call, Response<ApiResponse<List<Product>>> response) {
-                if (response.body().getCode() == 200 && response.isSuccessful()) {
-                    callback.onSuccess(response.body().getData());
+            public void onResponse(Call<SuccessResponse<List<Product>>> call, Response<SuccessResponse<List<Product>>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body(), true);
                 } else {
-                    callback.onError(new Exception(response.body().getMessage()));
+                    Gson gson = new Gson();
+                    ErrorResponse errorResponse = gson.fromJson(
+                            response.errorBody().charStream(),
+                            ErrorResponse.class
+                    );
+                    callback.onError(errorResponse);
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<List<Product>>> call, Throwable t) {
-                callback.onError(t);
+            public void onFailure(Call<SuccessResponse<List<Product>>> call, Throwable t) {
+
             }
         });
     }
 
     public CompletableFuture<Product> getProductById(Integer id) {
         CompletableFuture<Product> future = new CompletableFuture<>();
-        Call<ApiResponse<Product>> call = productRepository.getProductById(id);
+        Call<SuccessResponse<Product>> call = productRepository.getProductById(id);
         call.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<ApiResponse<Product>> call, Response<ApiResponse<Product>> response) {
+            public void onResponse(Call<SuccessResponse<Product>> call, Response<SuccessResponse<Product>> response) {
                 if (response.isSuccessful() && response.body().getCode() == 200) {
                     future.complete(response.body().getData());
                 } else {
@@ -48,7 +57,7 @@ public class ProductService {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<Product>> call, Throwable t) {
+            public void onFailure(Call<SuccessResponse<Product>> call, Throwable t) {
                 future.completeExceptionally(t);
             }
         });

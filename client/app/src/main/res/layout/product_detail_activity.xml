@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary">
+    android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -139,7 +139,7 @@
                 android:id="@+id/product_description"
                 android:layout_width="match_parent"
                 android:layout_height="133dp"
-                android:textColor="#838383"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
@@ -178,7 +178,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:text="Add to Cart"
-                android:textColor="#000000" />
+                android:textColor="@color/text_primary" />
         </LinearLayout>
 
         <LinearLayout
@@ -200,7 +200,7 @@
                 android:layout_weight="2"
                 android:text="Buy Now"
                 android:textAlignment="center"
-                android:textColor="@color/primary" />
+                android:textColor="@color/background" />
         </LinearLayout>
 
     </LinearLayout>

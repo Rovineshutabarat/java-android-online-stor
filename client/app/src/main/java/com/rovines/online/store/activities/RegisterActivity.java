@@ -2,7 +2,6 @@ package com.rovines.online.store.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,12 +10,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.rovines.online.store.MainActivity;
 import com.rovines.online.store.R;
 import com.rovines.online.store.helpers.RetrofitClient;
 import com.rovines.online.store.models.User;
+import com.rovines.online.store.payload.api.ErrorResponse;
+import com.rovines.online.store.payload.api.SuccessResponse;
 import com.rovines.online.store.payload.request.RegisterRequest;
+import com.rovines.online.store.callbacks.ApiCallback;
 import com.rovines.online.store.services.UserService;
+
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -62,28 +65,27 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initializeService() {
-        this.userService = new UserService(RetrofitClient.getUserRepository(), this);
+        this.userService = new UserService(RetrofitClient.getUserRepository());
     }
 
     public void register(RegisterRequest registerRequest) {
-        userService.register(registerRequest)
-                .thenAccept(apiResponse -> {
-                    if (apiResponse != null) {
-                        if (apiResponse.getCode() == 201 || apiResponse.getCode() == 200) {
-                            runOnUiThread(() -> {
-                                Intent intent = new Intent(this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            });
-                        }
-                    }
-                })
-                .exceptionally(throwable -> {
-                    runOnUiThread(() -> {
-                        Toast.makeText(this, "Gagal Registrasi", Toast.LENGTH_LONG).show();
-                    });
-                    return null;
-                });
-    }
+        userService.register(registerRequest, new ApiCallback<>() {
+            @Override
+            public void onSuccess(SuccessResponse<User> successResponse) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                Toast.makeText(RegisterActivity.this, successResponse.getMessage(), Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onError(ErrorResponse errorResponse) {
+                Toast.makeText(RegisterActivity.this, "Error: " + errorResponse.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(SuccessResponse<List<User>> successResponse, Boolean fetch) {
+
+            }
+        });
+    }
 }

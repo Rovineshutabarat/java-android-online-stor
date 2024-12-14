@@ -16,11 +16,12 @@ import com.rovines.online.store.adapters.CategoryRecycleViewAdapter;
 import com.rovines.online.store.adapters.ProductRecycleViewAdapter;
 import com.rovines.online.store.helpers.Loading;
 import com.rovines.online.store.helpers.RetrofitClient;
-import com.rovines.online.store.listeners.ProductCartListener;
 import com.rovines.online.store.models.Category;
 import com.rovines.online.store.models.Product;
+import com.rovines.online.store.payload.api.ErrorResponse;
+import com.rovines.online.store.payload.api.SuccessResponse;
+import com.rovines.online.store.callbacks.ApiCallback;
 import com.rovines.online.store.services.CategoryService;
-import com.rovines.online.store.services.FetchCallback;
 import com.rovines.online.store.services.ProductService;
 
 import java.util.List;
@@ -75,29 +76,39 @@ public class StoreActivity extends AppCompatActivity {
 
     private void fetchCategories() {
         loading.show();
-        categoryService.getAllCategories(new FetchCallback<Category>() {
+        categoryService.getAllCategories(new ApiCallback<Category>() {
             @Override
-            public void onSuccess(List<Category> categories) {
-                categoryAdapter = new CategoryRecycleViewAdapter(StoreActivity.this, categories);
+            public void onSuccess(SuccessResponse<Category> successResponse) {
+
+            }
+
+            @Override
+            public void onSuccess(SuccessResponse<List<Category>> successResponse, Boolean fetch) {
+                categoryAdapter = new CategoryRecycleViewAdapter(StoreActivity.this, successResponse.getData());
                 categoryRecycleView.setAdapter(categoryAdapter);
                 loading.dismiss();
             }
 
             @Override
-            public void onError(Throwable throwable) {
-                handleError("Categories", throwable);
+            public void onError(ErrorResponse errorResponse) {
+                Toast.makeText(StoreActivity.this, "Error: " + errorResponse.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void fetchPopularProducts() {
         loading.show();
-        productService.getAllProducts(new FetchCallback<>() {
+        productService.getAllProducts(new ApiCallback<Product>() {
             @Override
-            public void onSuccess(List<Product> products) {
+            public void onSuccess(SuccessResponse<Product> successResponse) {
+
+            }
+
+            @Override
+            public void onSuccess(SuccessResponse<List<Product>> successResponse, Boolean fetch) {
                 popularProductAdapter = new ProductRecycleViewAdapter(
                         StoreActivity.this,
-                        products,
+                        successResponse.getData(),
                         id -> {
                             Intent intent = new Intent(StoreActivity.this, ProductDetailActivity.class);
                             intent.putExtra("id", id);
@@ -109,20 +120,25 @@ public class StoreActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(Throwable throwable) {
-                handleError("Popular Products", throwable);
+            public void onError(ErrorResponse errorResponse) {
+                Toast.makeText(StoreActivity.this, "Error: " + errorResponse.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void fetchAllProducts() {
         loading.show();
-        productService.getAllProducts(new FetchCallback<>() {
+        productService.getAllProducts(new ApiCallback<Product>() {
             @Override
-            public void onSuccess(List<Product> products) {
+            public void onSuccess(SuccessResponse<Product> successResponse) {
+
+            }
+
+            @Override
+            public void onSuccess(SuccessResponse<List<Product>> successResponse, Boolean fetch) {
                 allProductAdapter = new ProductRecycleViewAdapter(
                         StoreActivity.this,
-                        products,
+                        successResponse.getData(),
                         id -> {
                             Intent intent = new Intent(StoreActivity.this, ProductDetailActivity.class);
                             intent.putExtra("id", id);
@@ -134,8 +150,8 @@ public class StoreActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(Throwable throwable) {
-                handleError("All Products", throwable);
+            public void onError(ErrorResponse errorResponse) {
+                Toast.makeText(StoreActivity.this, "Error: " + errorResponse.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
