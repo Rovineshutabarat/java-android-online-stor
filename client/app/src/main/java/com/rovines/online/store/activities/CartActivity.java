@@ -1,6 +1,7 @@
 package com.rovines.online.store.activities;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,37 +10,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rovines.online.store.R;
 import com.rovines.online.store.adapters.CartItemRecycleViewAdapter;
-import com.rovines.online.store.models.Category;
-import com.rovines.online.store.models.Product;
+import com.rovines.online.store.helpers.CartManager;
+import com.rovines.online.store.models.CartItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
     private RecyclerView cartItemRecyclerView;
+    private CartManager cartManager;
+    private TextView tvTotalPrice;
+    private Double total_price = 0.0;
+    List<CartItem> cartItems;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart_activity);
+        initializeService();
         initializeView();
     }
 
     private void initializeView() {
         this.cartItemRecyclerView = findViewById(R.id.cartItemRecyclerView);
+        this.tvTotalPrice = findViewById(R.id.tvTotalPrice);
 
         this.cartItemRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
 
-        List<Product> products = new ArrayList<>();
-        products.add(new Product(1, "nama", "desc", 20000.0, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHKpC8YpsUM8vujw3jpbwxltYSyX30dn0mhBRYe5hLWfjMWunQey1gffykqSmOPZv3HQg&usqp=CAU", 1, Category.builder()
-                .name("alndlkasnd")
-                .build()));products.add(new Product(1, "nama", "desc", 20000.0, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHKpC8YpsUM8vujw3jpbwxltYSyX30dn0mhBRYe5hLWfjMWunQey1gffykqSmOPZv3HQg&usqp=CAU", 1, Category.builder()
-                .name("alndlkasnd")
-                .build()));
+        cartItems = cartManager.getAllCartItem();
 
-        CartItemRecycleViewAdapter cartItemRecycleViewAdapter = new CartItemRecycleViewAdapter(this, products);
+        for (CartItem cartItem : cartItems){
+            total_price += (cartItem.getPrice() * cartItem.getQuantity());
+        }
+
+        this.tvTotalPrice .setText("Rp" + total_price.toString());
+
+        CartItemRecycleViewAdapter cartItemRecycleViewAdapter = new CartItemRecycleViewAdapter(this, cartItems , cartManager);
         this.cartItemRecyclerView.setAdapter(cartItemRecycleViewAdapter);
+    }
+    private void initializeService(){
+        this.cartManager = CartManager.getInstance(this);
     }
 }

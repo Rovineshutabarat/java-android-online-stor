@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.rovines.online.store.MainActivity;
 import com.rovines.online.store.R;
+import com.rovines.online.store.activities.CartActivity;
 import com.rovines.online.store.models.BottomNavigation;
 
 import java.util.List;
@@ -52,6 +53,10 @@ public class BottomNavigationAdapter extends RecyclerView.Adapter<BottomNavigati
             Intent intent = null;
             if (position == 0) {
                 intent = new Intent(context, MainActivity.class);
+            } else if (position == 1) {
+
+            } else if (position == 2) {
+                intent = new Intent(context, CartActivity.class);
             }
             context.startActivity(intent);
         });

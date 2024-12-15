@@ -59,7 +59,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/delete_button"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -75,7 +75,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_decrease_quantity"
+                android:id="@+id/decrease_quantity_btn"
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/accent_light"
@@ -97,7 +97,7 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/btn_increase_quantity"
+                android:id="@+id/increase_quantity_btn"
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/accent_light"

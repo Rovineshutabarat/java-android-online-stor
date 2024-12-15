@@ -154,6 +154,7 @@
         android:padding="16dp">
 
         <LinearLayout
+            android:id="@+id/add_to_cart_button"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_gravity="center"
