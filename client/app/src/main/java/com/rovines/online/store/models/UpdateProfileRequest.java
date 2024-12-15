@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UpdateProfileRequest {
     private Integer id;
     private String username;
     private String email;
     private String password;
-    private String address;
     private String contact;
+    private String address;
 }

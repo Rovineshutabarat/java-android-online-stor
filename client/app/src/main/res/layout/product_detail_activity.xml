@@ -154,6 +154,7 @@
         android:padding="16dp">
 
         <LinearLayout
+            android:id="@+id/add_to_cart_button"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_gravity="center"
@@ -165,11 +166,11 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="34dp"
-                android:layout_height="match_parent"
+                android:layout_width="26dp"
+                android:layout_height="20dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_app_logo" />
+                app:srcCompat="@drawable/ic_cart" />
 
             <TextView
                 android:id="@+id/textView10"

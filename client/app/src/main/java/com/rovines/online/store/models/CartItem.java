@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class CartItem {
     private Integer id;
-    private String username;
-    private String email;
-    private String password;
-    private String address;
-    private String contact;
+    private String name;
+    private Double price;
+    private String image_url;
+    private Integer quantity;
 }

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.gson.Gson;
 import com.rovines.online.store.R;
 import com.rovines.online.store.helpers.RetrofitClient;
 import com.rovines.online.store.models.User;
@@ -68,11 +69,16 @@ public class LoginActivity extends AppCompatActivity {
         userService.login(loginRequest, new ApiCallback<User>() {
             @Override
             public void onSuccess(SuccessResponse<User> successResponse) {
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                Gson gson = new Gson();
+
+                User user = successResponse.getData();
+                String userJson = gson.toJson(user);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("id", successResponse.getData().getId());
-                editor.putString("username", successResponse.getData().getUsername());
+                editor.putString("user", userJson);
                 editor.apply();
+
 
                 Intent intent = new Intent(LoginActivity.this, StoreActivity.class);
                 startActivity(intent);
