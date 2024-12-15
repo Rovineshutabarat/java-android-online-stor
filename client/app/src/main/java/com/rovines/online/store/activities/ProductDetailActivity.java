@@ -1,6 +1,8 @@
 package com.rovines.online.store.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -46,14 +48,22 @@ public class ProductDetailActivity extends AppCompatActivity {
         fetchProduct(getIntent().getIntExtra("id", 1));
 
         this.add_to_cart_button.setOnClickListener(v -> {
-            cartManager.addToCart(CartItem.builder()
-                    .id(product_id)
-                    .name(product_name.getText().toString())
-                    .price(price)
-                    .image_url(product_image_url)
-                    .quantity(1)
-                    .build());
-            Toast.makeText(ProductDetailActivity.this, "Berhasil Tambah Produk Ke Keranjang.", Toast.LENGTH_LONG).show();
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+            String userJson = sharedPreferences.getString("user", null);
+            if (userJson == null) {
+                Intent intent = new Intent(ProductDetailActivity.this, LoginActivity.class);
+                startActivity(intent);
+                Toast.makeText(ProductDetailActivity.this, "Silahkan Login Terlebih Dahulu.", Toast.LENGTH_LONG).show();
+            } else {
+                cartManager.addToCart(CartItem.builder()
+                        .id(product_id)
+                        .name(product_name.getText().toString())
+                        .price(price)
+                        .image_url(product_image_url)
+                        .quantity(1)
+                        .build());
+                Toast.makeText(ProductDetailActivity.this, "Berhasil Tambah Produk Ke Keranjang.", Toast.LENGTH_LONG).show();
+            }
         });
     }
 

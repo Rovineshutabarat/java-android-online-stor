@@ -2,6 +2,7 @@ package com.online.store.server.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,11 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    private String address;
+
+    @Column(length = 15)
+    private String contact;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",

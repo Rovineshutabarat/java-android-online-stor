@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class UpdateProfileRequest {
+    @NotBlank
+    @Size(min = 3, max = 70)
+    private String username;
     @NotBlank
     @Email
     @Size(min = 3, max = 70)
@@ -21,4 +24,7 @@ public class LoginRequest {
     @NotBlank
     @Size(min = 3)
     private String password;
+    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Invalid contact number")
+    private String contact;
+    private String address;
 }

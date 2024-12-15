@@ -7,6 +7,7 @@ import com.online.store.server.models.Role;
 import com.online.store.server.models.User;
 import com.online.store.server.payload.request.LoginRequest;
 import com.online.store.server.payload.request.RegisterRequest;
+import com.online.store.server.payload.request.UpdateProfileRequest;
 import com.online.store.server.repositories.UserRepository;
 import com.online.store.server.services.AuthService;
 import lombok.AllArgsConstructor;
@@ -45,5 +46,22 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthenticationException("Invalid password");
         }
         return user;
+    }
+
+    @Override
+    public User updateProfile(UpdateProfileRequest updateProfileRequest, Integer id) {
+        User user = userRepository.findByEmail(updateProfileRequest.getEmail()).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("User with email %s not found", updateProfileRequest.getEmail()))
+        );
+
+        return userRepository.save(User.builder()
+                .id(id)
+                .username(updateProfileRequest.getUsername())
+                .email(updateProfileRequest.getEmail())
+                .password(updateProfileRequest.getPassword())
+                .contact(updateProfileRequest.getContact())
+                .address(updateProfileRequest.getAddress())
+                .roles(user.getRoles())
+                .build());
     }
 }

@@ -25,7 +25,6 @@ public class CartManager {
         gson = new Gson();
         sharedPreferences = context.getApplicationContext().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        clearCart();
     }
 
     public static synchronized CartManager getInstance(Context context) {

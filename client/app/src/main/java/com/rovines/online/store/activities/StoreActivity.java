@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.rovines.online.store.R;
 import com.rovines.online.store.adapters.BottomNavigationAdapter;
 import com.rovines.online.store.adapters.CategoryRecycleViewAdapter;
@@ -22,6 +23,7 @@ import com.rovines.online.store.helpers.Loading;
 import com.rovines.online.store.helpers.RetrofitClient;
 import com.rovines.online.store.models.Category;
 import com.rovines.online.store.models.Product;
+import com.rovines.online.store.models.User;
 import com.rovines.online.store.payload.api.ErrorResponse;
 import com.rovines.online.store.payload.api.SuccessResponse;
 import com.rovines.online.store.callbacks.ApiCallback;
@@ -70,8 +72,6 @@ public class StoreActivity extends AppCompatActivity {
         );
 
         allProductGridView.setLayoutManager(new GridLayoutManager(this, 2));
-
-
     }
 
     private void initializeServices() {
@@ -81,9 +81,15 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     public void setUsernameTextView() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", null);
-        this.username_text_view.setText(username);
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("user", null);
+        if (userJson != null) {
+            User user = gson.fromJson(userJson, User.class);
+            if (user.getUsername() != null) {
+                this.username_text_view.setText(user.getUsername());
+            }
+        }
     }
 
     private void setBottomNavigationRecycleViewAdapter() {

@@ -47,7 +47,7 @@
                         android:layout_height="19dp"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Rovines"
+                        android:text="Guest"
                         android:textColor="@color/text_primary"
                         android:textSize="16sp"
                         android:textStyle="bold" />

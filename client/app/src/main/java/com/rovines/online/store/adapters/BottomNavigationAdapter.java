@@ -13,9 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.rovines.online.store.MainActivity;
 import com.rovines.online.store.R;
 import com.rovines.online.store.activities.CartActivity;
+import com.rovines.online.store.activities.ProfileActivity;
+import com.rovines.online.store.activities.StoreActivity;
 import com.rovines.online.store.models.BottomNavigation;
 
 import java.util.List;
@@ -23,9 +24,9 @@ import java.util.List;
 public class BottomNavigationAdapter extends RecyclerView.Adapter<BottomNavigationAdapter.BottomNavigationHolder> {
     private final Context context;
     private final List<BottomNavigation> bottomNavigations = List.of(
-            new BottomNavigation("Homepage", "https://img.icons8.com/fluency-systems-regular/50/user--v1.png"),
-            new BottomNavigation("Search", "https://img.icons8.com/fluency-systems-regular/50/user--v1.png"),
-            new BottomNavigation("Cart", "https://img.icons8.com/fluency-systems-regular/50/user--v1.png"),
+            new BottomNavigation("Homepage", "https://img.icons8.com/windows/32/home.png"),
+            new BottomNavigation("Search", "https://img.icons8.com/glyph-neue/50/search--v1.png"),
+            new BottomNavigation("Cart", "https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png"),
             new BottomNavigation("Profile", "https://img.icons8.com/fluency-systems-regular/50/user--v1.png")
     );
 
@@ -52,11 +53,13 @@ public class BottomNavigationAdapter extends RecyclerView.Adapter<BottomNavigati
         holder.bottom_navigation_item.setOnClickListener(v -> {
             Intent intent = null;
             if (position == 0) {
-                intent = new Intent(context, MainActivity.class);
+                intent = new Intent(context, StoreActivity.class);
             } else if (position == 1) {
-
+                intent = new Intent(context, StoreActivity.class);
             } else if (position == 2) {
                 intent = new Intent(context, CartActivity.class);
+            } else if (position == 3) {
+                intent = new Intent(context, ProfileActivity.class);
             }
             context.startActivity(intent);
         });
