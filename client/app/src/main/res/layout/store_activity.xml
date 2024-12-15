@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -158,10 +158,9 @@
         android:id="@+id/bottomNavigationRecycleView"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:background="@color/background"
-        android:elevation="10dp"
         android:clipToPadding="false"
-        android:padding="4dp" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:elevation="10dp"
+        android:padding="4dp"/>
+</RelativeLayout>

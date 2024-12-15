@@ -186,10 +186,4 @@ public class StoreActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void handleError(String context, Throwable throwable) {
-        Log.e("StoreActivity", "Error fetching " + context, throwable);
-        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-        loading.dismiss();
-    }
 }

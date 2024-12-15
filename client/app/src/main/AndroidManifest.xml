@@ -43,6 +43,18 @@
         <activity
             android:name=".activities.ProfileFormActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.AdminDashboardActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.CategoryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.CreateCategoryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.UpdateCategoryActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

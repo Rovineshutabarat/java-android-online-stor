@@ -56,6 +56,11 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ProfileFormActivity.class);
             startActivity(intent);
         });
+
+        this.adminpage_button.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AdminDashboardActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeView() {
