@@ -5,6 +5,7 @@ import com.rovines.online.store.callbacks.ApiCallback;
 import com.rovines.online.store.models.Product;
 import com.rovines.online.store.payload.api.ErrorResponse;
 import com.rovines.online.store.payload.api.SuccessResponse;
+import com.rovines.online.store.payload.request.ProductRequest;
 import com.rovines.online.store.repositories.ProductRepository;
 
 import java.util.List;
@@ -62,5 +63,77 @@ public class ProductService {
             }
         });
         return future;
+    }
+
+    public void createProduct(ProductRequest productRequest, ApiCallback<Product> callback) {
+        Call<SuccessResponse<Product>> call = productRepository.createProduct(productRequest);
+        call.enqueue(new Callback<SuccessResponse<Product>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<Product>> call, Response<SuccessResponse<Product>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                } else {
+                    Gson gson = new Gson();
+                    ErrorResponse errorResponse = gson.fromJson(
+                            response.errorBody().charStream(),
+                            ErrorResponse.class
+                    );
+                    callback.onError(errorResponse);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResponse<Product>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void updateProduct(Integer id, ProductRequest productRequest, ApiCallback<Product> callback) {
+        Call<SuccessResponse<Product>> call = productRepository.updateProduct(id, productRequest);
+        call.enqueue(new Callback<SuccessResponse<Product>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<Product>> call, Response<SuccessResponse<Product>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                } else {
+                    Gson gson = new Gson();
+                    ErrorResponse errorResponse = gson.fromJson(
+                            response.errorBody().charStream(),
+                            ErrorResponse.class
+                    );
+                    callback.onError(errorResponse);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResponse<Product>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void deleteCategory(Integer id, ApiCallback<Product> callback) {
+        Call<SuccessResponse<Product>> call = productRepository.deleteProduct(id);
+        call.enqueue(new Callback<SuccessResponse<Product>>() {
+            @Override
+            public void onResponse(Call<SuccessResponse<Product>> call, Response<SuccessResponse<Product>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                } else {
+                    Gson gson = new Gson();
+                    ErrorResponse errorResponse = gson.fromJson(
+                            response.errorBody().charStream(),
+                            ErrorResponse.class
+                    );
+                    callback.onError(errorResponse);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResponse<Product>> call, Throwable t) {
+
+            }
+        });
     }
 }

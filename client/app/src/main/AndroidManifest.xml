@@ -55,6 +55,15 @@
         <activity
             android:name=".activities.UpdateCategoryActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.ProductActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.CreateProductActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.UpdateProductActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

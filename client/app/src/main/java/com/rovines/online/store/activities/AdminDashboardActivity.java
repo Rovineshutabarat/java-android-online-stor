@@ -16,6 +16,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private RecyclerView bottomNavigationRecycleView;
     private Button edit_profile_button;
     private Button category_button;
+    private Button product_button;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,12 +33,18 @@ public class AdminDashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(this, CategoryActivity.class);
             startActivity(intent);
         });
+
+        this.product_button.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProductActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeView() {
         this.bottomNavigationRecycleView = findViewById(R.id.bottomNavigationRecycleView);
         this.edit_profile_button = findViewById(R.id.edit_profile_button);
         this.category_button = findViewById(R.id.category_button);
+        this.product_button = findViewById(R.id.product_button);
 
 
         bottomNavigationRecycleView.setLayoutManager(new GridLayoutManager(this, 4));

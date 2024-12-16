@@ -85,25 +85,24 @@ public class CategoryActivity extends AppCompatActivity {
                                 categoryService.deleteCategory(id, new ApiCallback<Category>() {
                                     @Override
                                     public void onSuccess(SuccessResponse<Category> successResponse) {
-                                        Toast.makeText(CategoryActivity.this, "Berhasil Hapus Category.", Toast.LENGTH_LONG).show();
                                         fetchCategories();
+                                        Toast.makeText(CategoryActivity.this, "Berhasil Hapus Category.", Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
                                     public void onSuccess(SuccessResponse<List<Category>> successResponse, Boolean fetch) {
-
                                     }
 
                                     @Override
                                     public void onError(ErrorResponse errorResponse) {
-
+                                        Toast.makeText(CategoryActivity.this, successResponse.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
 
                             @Override
                             public void onEdit(Integer id) {
-                                Intent intent = new Intent(CategoryActivity.this,UpdateCategoryActivity.class);
+                                Intent intent = new Intent(CategoryActivity.this, UpdateCategoryActivity.class);
                                 intent.putExtra("id", id);
                                 startActivity(intent);
                             }
