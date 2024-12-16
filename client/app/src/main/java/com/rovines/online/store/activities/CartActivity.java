@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class CartActivity extends AppCompatActivity {
     private RecyclerView cartItemRecyclerView;
     private CartManager cartManager;
     private TextView tvTotalPrice;
+    private Button btnCheckout;
     private Double total_price = 0.0;
     List<CartItem> cartItems;
 
@@ -35,11 +37,17 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.cart_activity);
         initializeService();
         initializeView();
+
+        btnCheckout.setOnClickListener(v -> {
+            Intent intent = new Intent(CartActivity.this , PaymentMethodActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeView() {
         this.cartItemRecyclerView = findViewById(R.id.cartItemRecyclerView);
         this.tvTotalPrice = findViewById(R.id.tvTotalPrice);
+        this.btnCheckout = findViewById(R.id.btnCheckout);
 
         this.cartItemRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

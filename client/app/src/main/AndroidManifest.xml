@@ -64,6 +64,12 @@
         <activity
             android:name=".activities.UpdateProductActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.PaymentMethodActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.OrderActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
