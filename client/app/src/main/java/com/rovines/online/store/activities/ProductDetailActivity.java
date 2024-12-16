@@ -32,6 +32,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private TextView product_price;
     private TextView product_category_name;
     private LinearLayout add_to_cart_button;
+    private LinearLayout buy_now_button;
     private ProductService productService;
     private Loading loading;
     private CartManager cartManager;
@@ -65,6 +66,11 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(ProductDetailActivity.this, "Berhasil Tambah Produk Ke Keranjang.", Toast.LENGTH_LONG).show();
             }
         });
+
+        this.buy_now_button.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductDetailActivity.this , PaymentMethodActivity.class);
+            startActivity(intent);
+        });
     }
 
 
@@ -75,6 +81,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         this.product_description = findViewById(R.id.product_description);
         this.product_category_name = findViewById(R.id.product_category_name);
         this.add_to_cart_button = findViewById(R.id.add_to_cart_button);
+        this.buy_now_button = findViewById(R.id.buy_now_button);
     }
 
     private void initializeServices() {
